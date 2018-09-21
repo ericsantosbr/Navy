@@ -7,6 +7,12 @@ local player = require("player")
 local shot = require("shots")
 local downKeys = {up = false, down = false, left = false, right = false, spacebar = false}
 local shots = {}
+local timer = 0
+local time = 0
+local shotCadency = 0.11
+local shotSpeed = 8
+local secs = 0
+local shoootable = true
 
 function love.load(args)
 	table.insert(drawPile, player)
@@ -15,11 +21,17 @@ end
 
 -- TODO: atualizar função de tiros pra adicionar cadência
 function love.update(dt)
+	timer = timer + dt
+	time = time + dt
+	if time >= shotCadency then shotable = true
+	else shotable = false end
+	secs = timer - (timer % 1)
 	player:update(downKeys)
 	if love.keyboard.isDown("escape") then love.event.quit() end
-	if downKeys.spacebar then
+	if downKeys.spacebar and shotable then
 		-- local shoot = shot.new(player, 2)
-		table.insert(shots, {x = player.x + (player.width / 2), y = player.y + (player.height / 2), speed = 3})
+		table.insert(shots, {x = player.x + (player.width / 2), y = player.y + (player.height / 2), speed = shotSpeed})
+		time = 0
 	end
 	for i in pairs(shots) do
 		if shots[i].x > love.graphics.getWidth() then table.remove(shots, i)
@@ -28,13 +40,13 @@ function love.update(dt)
 end
 
 function love.draw()
+	love.graphics.print(tostring(secs), 10, 10, 0)
 	for i in pairs(drawPile) do
 		drawPile[i]:draw()
 	end
 	for i in pairs(shots) do
 		love.graphics.rectangle("fill", shots[i].x, shots[i].y, 15, 8)
 	end
-	if downKeys.spacebar then love.graphics.print("pew pew", 10, 20, 0) end
 end
 
 function love.keypressed(key)

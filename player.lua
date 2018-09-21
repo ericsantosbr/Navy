@@ -1,7 +1,7 @@
 -- DONE: implementar função keyDown e keyReleased no bloco main
 local player = {}
 
-function player.new()
+function new()
 	player.x = 50
 	player.y = 50
 	player.width = 50
@@ -42,4 +42,9 @@ function player:update(keys)
 	end
 end
 
+function player:draw()
+	love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+end
+
+new()
 return player

@@ -4,6 +4,7 @@
 local threadPile = {}
 local drawPile = {}
 local player = require("player")
+local enemy = require("enemy")
 local shot = require("shots")
 local downKeys = {up = false, down = false, left = false, right = false, spacebar = false}
 local shots = {}
@@ -15,7 +16,9 @@ local secs = 0
 local shoootable = true
 
 function love.load(args)
+	local enemy1 = enemy.new()
 	table.insert(drawPile, player)
+	table.insert(drawPile, enemy1)
 	-- shoot = shot.new(player)
 end
 
@@ -42,7 +45,9 @@ end
 function love.draw()
 	love.graphics.print(tostring(secs), 10, 10, 0)
 	for i in pairs(drawPile) do
-		drawPile[i]:draw()
+		i = assert(drawPile[i]:draw())
+		-- TODO: fix this method to draw non-object enemy
+		if i break else drawPile[i].draw() end
 	end
 	for i in pairs(shots) do
 		love.graphics.rectangle("fill", shots[i].x, shots[i].y, 15, 8)

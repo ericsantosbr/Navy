@@ -10,16 +10,18 @@ function enemy.new(x, y, width, height, speed)
 	newEnemy.width = width or 15
 	newEnemy.height = height or 8
 	newEnemy.speed = speed or 4
-	newEnemy.update = function()
-		if newEnemy.speed < 0 and newEnemy.y < 0 then
-			newEnemy.speed = newEnemy.speed * (-1)
-		elseif  newEnemy.speed > 0 and love.graphics.getHeight > newEnemy.width + newEnemy.y then
-			newEnemy.speed = newEnemy.speed * (-1)
+	newEnemy.update = function(self)
+		if self.speed < 0 and self.y < 0 then
+			self.speed = self.speed * (-1)
+		elseif  self.speed > 0 and love.graphics.getHeight > self.width + self.y then
+			self.speed = newEnemy.speed * (-1)
 		else
 			newEnemy.y = newEnemy.y + newEnemy.speed
 		end
 	end
-	newEnemy.draw = love.graphics.rectangle("fill", newEnemy.x, newEnemy.y, newEnemy.width, newEnemy.height)
+	newEnemy.draw = function(self)
+		love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+	end
 	return newEnemy
 end
 

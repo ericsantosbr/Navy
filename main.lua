@@ -1,41 +1,64 @@
 -- main file for Navy game
 -- DONE: implementar melhoria nas funções de keyDown e keyUp usando callbacks Lua
+-- DONE: atualizar função de tiros pra adicionar cadência
 
+-- table piles that will be used on iteratons
 local threadPile = {}
 local drawPile = {}
+local updatePile = {}
+
+-- player object
 local player = require("player")
-local enemy = require("enemy")
 local shot = require("shots")
-local downKeys = {up = false, down = false, left = false, right = false, spacebar = false}
+
+-- enemy things
+local enemy = require("enemy")
+local enemyPile = {}
+
+-- local downKeys = {up = false, down = false, left = false, right = false, spacebar = false}
+local downKeys = dofile("keys.lua")
 local shots = {}
-local timer = 0
-local time = 0
+
+-- shot variables
 local shotCadency = 0.11
 local shotSpeed = 8
+
+-- seconds from the running game
+local timer = 0
 local secs = 0
+
+-- defines if the shoot action can be performed
+local time = 0
 local shoootable = true
 
 function love.load(args)
 	local enemy1 = enemy.new()
-	table.insert(drawPile, player)
 	table.insert(drawPile, enemy1)
+	table.insert(drawPile, player)
 	-- shoot = shot.new(player)
 end
 
--- TODO: atualizar função de tiros pra adicionar cadência
 function love.update(dt)
+	-- timing questions updates
 	timer = timer + dt
 	time = time + dt
-	if time >= shotCadency then shotable = true
-	else shotable = false end
+	if time >= shotCadency then shootable = true
+	else shootable = false end
 	secs = timer - (timer % 1)
+
+	-- player update
 	player:update(downKeys)
+
+	-- if escape is pressed during game
 	if love.keyboard.isDown("escape") then love.event.quit() end
-	if downKeys.spacebar and shotable then
-		-- local shoot = shot.new(player, 2)
+
+	-- checks if a shot is performed
+	if downKeys.spacebar and shootable then
 		table.insert(shots, {x = player.x + (player.width / 2), y = player.y + (player.height / 2), speed = shotSpeed})
 		time = 0
 	end
+
+	-- update the shot table
 	for i in pairs(shots) do
 		if shots[i].x > love.graphics.getWidth() then table.remove(shots, i)
 		else shots[i].x = shots[i].x + shots[i].speed end
@@ -43,12 +66,16 @@ function love.update(dt)
 end
 
 function love.draw()
+	love.graphics.clear()
 	love.graphics.print(tostring(secs), 10, 10, 0)
 	for i in pairs(drawPile) do
-		i = assert(drawPile[i]:draw())
-		-- TODO: fix this method to draw non-object enemy
-		if i break else drawPile[i].draw() end
+		drawPile[i]:draw()
 	end
+	-- test: enemy draw
+	for i in pairs(enemyPile) do
+		enemyPile[i]:draw()
+	end
+
 	for i in pairs(shots) do
 		love.graphics.rectangle("fill", shots[i].x, shots[i].y, 15, 8)
 	end

@@ -3,9 +3,9 @@ local player = {}
 
 function new()
 	player.x = 50
-	player.y = 50
-	player.width = 50
-	player.height = 50
+	player.y = 400
+	player.width = 20
+	player.height = 20
 end
 
 function player:update(keys)

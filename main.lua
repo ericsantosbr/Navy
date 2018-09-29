@@ -1,15 +1,21 @@
 -- main file for Navy game
 -- DONE: implementar melhoria nas funções de keyDown e keyUp usando callbacks Lua
 -- DONE: atualizar função de tiros pra adicionar cadência
+-- DONE: implementar arquivos de colisão para checar colisão entre tiros e inimigos
+-- DONE: definir as pilhas e o método que será usado para definir as colisões, fazendo uso dessas pilhas
 
 -- table piles that will be used on iteratons
 local threadPile = {}
 local drawPile = {}
 local updatePile = {}
 
+-- collision checker
+local collision = require("collision")
+
 -- player object
 local player = require("player")
-local shot = require("shots")
+local playerPile = {}
+local points = 0
 
 -- enemy things
 local enemy = require("enemy")
@@ -17,11 +23,12 @@ local enemyPile = {}
 
 -- local downKeys = {up = false, down = false, left = false, right = false, spacebar = false}
 local downKeys = dofile("keys.lua")
-local shots = {}
 
 -- shot variables
-local shotCadency = 0.11
-local shotSpeed = 8
+local shot = require("shots")
+local shotCadency = 0.10
+local shotSpeed = 20
+local shotPile = {}
 
 -- seconds from the running game
 local timer = 0
@@ -31,11 +38,27 @@ local secs = 0
 local time = 0
 local shoootable = true
 
+-- test variables
+local col_test = false
+local stats = ""
+local collisionsNum = 0
+local enemy1 = enemy.new()
+local enemy2 = enemy.new(400, 300)
+local objectPile = {}
+
 function love.load(args)
-	local enemy1 = enemy.new()
-	table.insert(drawPile, enemy1)
-	table.insert(drawPile, player)
-	-- shoot = shot.new(player)
+	-- Player props
+	table.insert(playerPile, player)
+	table.insert(objectPile, playerPile)
+
+	-- Shot props
+	table.insert(objectPile, shotPile)
+
+	-- Enemies props
+	table.insert(objectPile, enemyPile)
+
+	table.insert(enemyPile, enemy1)
+	table.insert(enemyPile, enemy2)
 end
 
 function love.update(dt)
@@ -45,40 +68,51 @@ function love.update(dt)
 	if time >= shotCadency then shootable = true
 	else shootable = false end
 	secs = timer - (timer % 1)
-
-	-- player update
-	player:update(downKeys)
+	-- stats = stats .. secs
 
 	-- if escape is pressed during game
 	if love.keyboard.isDown("escape") then love.event.quit() end
 
 	-- checks if a shot is performed
 	if downKeys.spacebar and shootable then
-		table.insert(shots, {x = player.x + (player.width / 2), y = player.y + (player.height / 2), speed = shotSpeed})
+		local shot = shot.new(player, shotSpeed)
 		time = 0
+		table.insert(shotPile, shot)
 	end
 
-	-- update the shot table
-	for i in pairs(shots) do
-		if shots[i].x > love.graphics.getWidth() then table.remove(shots, i)
-		else shots[i].x = shots[i].x + shots[i].speed end
+	-- General object updater
+	for i, j in pairs(objectPile) do
+		for k, l in pairs(j) do
+			l:update(downKeys)
+		end
 	end
+
+	-- Collision checker
+	for i, j in pairs(enemyPile) do
+		for k, l in pairs(shotPile) do
+	 		if collision.check(j, l) then
+	 			collisionsNum = collisionsNum + 1
+	 			enemyPile[i] = nil
+	 			shotPile[k] = nil
+	 			points = points + 1
+	 		end
+		end
+	end
+
+	stats = "Pontos: " .. points
 end
 
 function love.draw()
 	love.graphics.clear()
-	love.graphics.print(tostring(secs), 10, 10, 0)
-	for i in pairs(drawPile) do
-		drawPile[i]:draw()
-	end
-	-- test: enemy draw
-	for i in pairs(enemyPile) do
-		enemyPile[i]:draw()
+	love.graphics.print(tostring(stats), 10, 10, 0)
+
+	-- Draw objects
+	for i, j in pairs(objectPile) do
+		for k, l in pairs(j) do
+			l:draw()
+		end
 	end
 
-	for i in pairs(shots) do
-		love.graphics.rectangle("fill", shots[i].x, shots[i].y, 15, 8)
-	end
 end
 
 function love.keypressed(key)

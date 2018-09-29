@@ -3,8 +3,16 @@
 -- DONE: atualizar função de tiros pra adicionar cadência
 -- DONE: implementar arquivos de colisão para checar colisão entre tiros e inimigos
 -- DONE: definir as pilhas e o método que será usado para definir as colisões, fazendo uso dessas pilhas
+-- DONE: Implementar behavior simples de inimigos
+
+-- TODO: Implementar behavior avançado de inimigos
+-- TODO: Implementar reset dos padrões de draw
+-- TODO: Implementar sprites básicos do personagem
+-- TODO: Implementar sprites de inimigos
+-- TODO: Implementar geração do fundo estrelado
 
 -- table piles that will be used on iteratons
+local objectPile = {}
 local threadPile = {}
 local drawPile = {}
 local updatePile = {}
@@ -39,12 +47,9 @@ local time = 0
 local shoootable = true
 
 -- test variables
-local col_test = false
 local stats = ""
-local collisionsNum = 0
 local enemy1 = enemy.new()
-local enemy2 = enemy.new(400, 300)
-local objectPile = {}
+local enemy2 = enemy.new(400, 300, 20, 12)
 
 function love.load(args)
 	-- Player props
@@ -57,6 +62,7 @@ function love.load(args)
 	-- Enemies props
 	table.insert(objectPile, enemyPile)
 
+	-- test inserts
 	table.insert(enemyPile, enemy1)
 	table.insert(enemyPile, enemy2)
 end
@@ -91,7 +97,6 @@ function love.update(dt)
 	for i, j in pairs(enemyPile) do
 		for k, l in pairs(shotPile) do
 	 		if collision.check(j, l) then
-	 			collisionsNum = collisionsNum + 1
 	 			enemyPile[i] = nil
 	 			shotPile[k] = nil
 	 			points = points + 1
@@ -99,6 +104,7 @@ function love.update(dt)
 		end
 	end
 
+	-- shows player points
 	stats = "Pontos: " .. points
 end
 

@@ -1,5 +1,4 @@
 -- background file for Navy
-
 local bg = {}
 
 function bg.new()

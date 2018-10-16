@@ -16,6 +16,7 @@ local objectPile = {}
 local threadPile = {}
 local drawPile = {}
 local updatePile = {}
+local bgPile = {}
 
 -- collision checker
 local collision = require("collision")
@@ -34,7 +35,6 @@ local downKeys = dofile("keys.lua")
 
 -- background object
 local background = require("background")
-local bgPile = {}
 
 -- shot variables
 local shot = require("shots")

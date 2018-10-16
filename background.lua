@@ -4,16 +4,11 @@ local bg = {}
 
 function bg.new()
 	local newBg = {}
-<<<<<<< HEAD
 	local objects = objGen(800, 600, 64)
-=======
-	local objects = {}
->>>>>>> master
 	newBg.objects = objects
 	newBg.getObjNum = function(self)
 		return #self.objects
 	end
-<<<<<<< HEAD
 	newBg.update = function(self)
 		
 	end
@@ -40,9 +35,4 @@ function objGen(height, width, objCount)
 	return objList
 end
 
-=======
-	return newBg
-end
-
->>>>>>> master
 return bg

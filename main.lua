@@ -4,12 +4,12 @@
 -- DONE: implementar arquivos de colisão para checar colisão entre tiros e inimigos
 -- DONE: definir as pilhas e o método que será usado para definir as colisões, fazendo uso dessas pilhas
 -- DONE: Implementar behavior simples de inimigos
+-- DONE: Implementar geração do fundo estrelado
 
 -- TODO: Implementar behavior avançado de inimigos
 -- TODO: Implementar reset dos padrões de draw
 -- TODO: Implementar sprites básicos do personagem
 -- TODO: Implementar sprites de inimigos
--- TODO: Implementar geração do fundo estrelado
 
 -- table piles that will be used on iteratons
 local objectPile = {}

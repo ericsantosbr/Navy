@@ -32,6 +32,10 @@ local enemyPile = {}
 -- local downKeys = {up = false, down = false, left = false, right = false, spacebar = false}
 local downKeys = dofile("keys.lua")
 
+-- background object
+local background = require("background")
+local bgPile = {}
+
 -- shot variables
 local shot = require("shots")
 local shotCadency = 0.10
@@ -65,6 +69,11 @@ function love.load(args)
 	-- test inserts
 	table.insert(enemyPile, enemy1)
 	table.insert(enemyPile, enemy2)
+
+	-- background creaiton
+	bg = background.new()
+	table.insert(bgPile, bg)
+	table.insert(objectPile, bgPile)
 end
 
 function love.update(dt)
@@ -89,7 +98,9 @@ function love.update(dt)
 	-- General object updater
 	for i, j in pairs(objectPile) do
 		for k, l in pairs(j) do
-			l:update(downKeys)
+			if l.update ~= nil then
+				l:update(downKeys)
+			end
 		end
 	end
 

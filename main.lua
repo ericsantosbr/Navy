@@ -23,6 +23,7 @@ local collision = require("collision")
 
 -- player object
 local player = require("player")
+player1 = player.new()
 local playerPile = {}
 local points = 0
 
@@ -57,7 +58,7 @@ local enemy2 = enemy.new(400, 300, 20, 12)
 
 function love.load(args)
 	-- Player props
-	table.insert(playerPile, player)
+	table.insert(playerPile, player1)
 	table.insert(objectPile, playerPile)
 
 	-- Shot props
@@ -90,7 +91,7 @@ function love.update(dt)
 
 	-- checks if a shot is performed
 	if downKeys.spacebar and shootable then
-		local shot = shot.new(player, shotSpeed)
+		local shot = shot.new(player1, shotSpeed)
 		time = 0
 		table.insert(shotPile, shot)
 	end

@@ -18,12 +18,14 @@ local drawPile = {}
 local updatePile = {}
 local bgPile = {}
 
+local world = love.physics.newWorld(0, 0)
+
 -- collision checker
 local collision = require("collision")
 
 -- player object
 local player = require("player")
-player1 = player.new()
+player1, playerP = player.new(world, 200, 200, 30, 30)
 local playerPile = {}
 local points = 0
 
@@ -78,6 +80,7 @@ function love.load(args)
 end
 
 function love.update(dt)
+	world:update(dt)
 	-- timing questions updates
 	timer = timer + dt
 	time = time + dt
@@ -118,6 +121,8 @@ function love.update(dt)
 
 	-- shows player points
 	stats = "Pontos: " .. points
+	playerP:update(downKeys)
+	stats = stats .. "x: " .. playerP.body:getX() .. "\ny: " .. playerP.body:getY()
 end
 
 function love.draw()
@@ -130,6 +135,8 @@ function love.draw()
 			l:draw()
 		end
 	end
+
+	playerP:draw()
 
 end
 

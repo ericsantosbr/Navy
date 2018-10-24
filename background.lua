@@ -30,7 +30,7 @@ function objGen(height, width, objCount)
 		star.y = math.random(0, width)
 		table.insert(objList, star)
 	end
-	print(#objList)
+	
 	return objList
 end
 

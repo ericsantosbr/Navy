@@ -66,7 +66,7 @@ function player.new(world, x, y, width, height)
 	end
 
 	player1.draw = function(self)
-		love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+		-- love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 	end
 
 	return player1, newPlayer

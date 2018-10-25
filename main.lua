@@ -26,6 +26,8 @@ local collision = require("collision")
 -- player object
 local player = require("player")
 player1, playerP = player.new(world, 200, 200, 30, 30)
+playerP.width = 50
+playerP.height = 50
 local playerPile = {}
 local points = 0
 
@@ -94,7 +96,7 @@ function love.update(dt)
 
 	-- checks if a shot is performed
 	if downKeys.spacebar and shootable then
-		local shot = shot.new(player1, shotSpeed)
+		local shot = shot.new(playerP.body:getX(), playerP.body:getY(), playerP.width, playerP.height, 20, 15, 15)
 		time = 0
 		table.insert(shotPile, shot)
 	end
@@ -122,7 +124,7 @@ function love.update(dt)
 	-- shows player points
 	stats = "Pontos: " .. points
 	playerP:update(downKeys)
-	stats = stats .. "x: " .. playerP.body:getX() .. "\ny: " .. playerP.body:getY()
+	stats = stats .. "\n" .. "x: " .. playerP.body:getX() .. "\ny: " .. playerP.body:getY()
 end
 
 function love.draw()

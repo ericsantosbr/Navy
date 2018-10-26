@@ -25,7 +25,7 @@ local collision = require("collision")
 
 -- player object
 local player = require("player")
-player1, playerP = player.new(world, 200, 200, 30, 30)
+playerP = player.new(world, 200, 200, 30, 30)
 playerP.width = 50
 playerP.height = 50
 local playerPile = {}
@@ -61,8 +61,11 @@ local enemy1 = enemy.new()
 local enemy2 = enemy.new(400, 300, 20, 12)
 
 function love.load(args)
+	for k, v in pairs(args) do
+		print(k, v)
+	end
 	-- Player props
-	table.insert(playerPile, player1)
+	table.insert(playerPile, playerP)
 	table.insert(objectPile, playerPile)
 
 	-- Shot props
@@ -96,7 +99,7 @@ function love.update(dt)
 
 	-- checks if a shot is performed
 	if downKeys.spacebar and shootable then
-		local shot = shot.new(playerP.body:getX(), playerP.body:getY(), playerP.width, playerP.height, 20, 15, 15)
+		local shot = shot.new(playerP.body:getX(), playerP.body:getY(), playerP.width, playerP.height, 20, 10, 10)
 		time = 0
 		table.insert(shotPile, shot)
 	end

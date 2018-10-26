@@ -29,8 +29,6 @@ function player.new(world, x, y, width, height)
 		love.graphics.polygon("fill", self.body:getWorldPoints(self.shape:getPoints()))
 	end
 
-	newPlayer.world = world
-
 	player1.update = function(self, keys)
 		if keys.up == true then
 			if player1.y > 0 then
@@ -69,7 +67,7 @@ function player.new(world, x, y, width, height)
 		-- love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 	end
 
-	return player1, newPlayer
+	return newPlayer
 end
 
 

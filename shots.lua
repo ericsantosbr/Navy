@@ -3,10 +3,10 @@ local shot = {}
 
 shot.numShot = 0
 
-function shot.new(shooter, speed, width, height)
+function shot.new(originX, originY, originWidth, originHeight, speed, width, height)
 	local shoot = {}
-	shoot.x = shooter.x + (shooter.width / 2)
-	shoot.y = shooter.y + (shooter.height / 2)
+	shoot.x = originX
+	shoot.y = originY
 	shoot.width = width or 15
 	shoot.height = height or 8
 	shoot.speed = speed or 10
@@ -16,6 +16,7 @@ function shot.new(shooter, speed, width, height)
 		else self.x = self.x + self.speed end
 	end
 	shoot.draw = function(self)
+		love.graphics.setColor(255, 255, 255)
 		love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 	end
 	return shoot

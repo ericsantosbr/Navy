@@ -1,7 +1,4 @@
 -- base enemy file for navy
--- movement only on y axis first
-
--- DONE: Fix enemies vertical movement
 
 local enemy = {}
 
@@ -12,6 +9,7 @@ function enemy.new(x, y, width, height, speed)
 	newEnemy.width = width or 10
 	newEnemy.height = height or 10
 	newEnemy.speed = speed or 2
+
 	newEnemy.update = function(self)
 		if self.y <= 0 then
 			self.speed = self.speed * (-1)
@@ -20,9 +18,12 @@ function enemy.new(x, y, width, height, speed)
 		end
 		self.y = self.y + self.speed
 	end
+
 	newEnemy.draw = function(self)
+		love.graphics.setColor(0, 0, 255)
 		love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 	end
+
 	return newEnemy
 end
 

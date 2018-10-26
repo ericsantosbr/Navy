@@ -21,6 +21,7 @@ function bg.new()
 		end
 	end
 	newBg.draw = function(self)
+		love.graphics.setColor(255, 255, 255)
 		for i, k in pairs(self.objects) do
 			love.graphics.rectangle("fill", k.x, k.y, 5, 5)
 		end

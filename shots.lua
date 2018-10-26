@@ -16,6 +16,7 @@ function shot.new(originX, originY, originWidth, originHeight, speed, width, hei
 		else self.x = self.x + self.speed end
 	end
 	shoot.draw = function(self)
+		love.graphics.setColor(255, 255, 255)
 		love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 	end
 	return shoot

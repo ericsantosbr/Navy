@@ -26,6 +26,7 @@ function player.new(world, x, y, width, height)
 	end
 
 	newPlayer.draw = function(self)
+		love.graphics.setColor(255, 0, 0)
 		love.graphics.polygon("fill", self.body:getWorldPoints(self.shape:getPoints()))
 	end
 

@@ -79,8 +79,12 @@ function love.load(args)
 	table.insert(enemyPile, enemy2)
 
 	-- background creaiton
-	bg = background.new()
+	bg = background.new(800, 600, 32)
+	bg2 = background.new(800, 600, 24, 4)
+	bg3 = background.new(800, 600, 16, 2)
 	table.insert(bgPile, bg)
+	table.insert(bgPile, bg2)
+	table.insert(bgPile, bg3)
 	table.insert(objectPile, bgPile)
 end
 

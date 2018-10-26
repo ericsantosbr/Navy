@@ -1,10 +1,10 @@
 -- background file for Navy
 local bg = {}
 
-function bg.new()
+function bg.new(width, height, elements, speed)
 	local newBg = {}
-	local objects = objGen(800, 600, 64)
-	newBg.speed = 8
+	local objects = objGen(width, height, elements)
+	newBg.speed = speed or 8
 	newBg.objects = objects
 
 	newBg.getObjNum = function(self)
